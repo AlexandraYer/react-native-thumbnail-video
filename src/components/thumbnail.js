@@ -40,7 +40,9 @@ export default class Thumbnail extends PureComponent {
     style: ViewPropTypes.style,
     type: PropTypes.oneOf(Object.keys(TYPES)),
     url: PropTypes.string.isRequired,
-    showPlayIcon: PropTypes.bool
+    showPlayIcon: PropTypes.bool,
+    addBottomRadius: PropTypes.bool,
+    playIcon: PropTypes.number
   };
 
   static defaultProps = {
@@ -48,7 +50,9 @@ export default class Thumbnail extends PureComponent {
     imageHeight: 200,
     imageWidth: DEFAULT_WIDTH,
     onPressError: () => {},
-    showPlayIcon: true
+    showPlayIcon: true,
+    addBottomRadius: false,
+    playIcon: undefined
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -107,6 +111,8 @@ export default class Thumbnail extends PureComponent {
       iconStyle,
       children,
       showPlayIcon,
+      addBottomRadius,
+      playIcon,
       ...props
     } = this.props;
 
@@ -128,12 +134,13 @@ export default class Thumbnail extends PureComponent {
             },
           ]}
           testId='thumbnail-image-background'
+          imageStyle={[{ borderTopRightRadius: 20, borderTopLeftRadius: 20 }, addBottomRadius && { borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }]}
           {...props}
         >
         {
           showPlayIcon ? (
             <Image
-              source={require('../assets/play.png')}
+              source={playIcon || require('../assets/play.png')}
               style={[styles.playIcon, iconStyle]}
               testId='thumbnail-image'
             />
